@@ -1,0 +1,9 @@
+.swipe {
+    @include prefix(transition, transform .5s ease-in);
+}
+.fade-enter, .fade-leave-active {
+    opacity: 0;
+}
+.fade-leave-active, .fade-enter-active {
+    @include prefix(transition, opacity .1s linear);
+}

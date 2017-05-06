@@ -1,0 +1,31 @@
+@mixin init {
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft YaHei', 'arial';
+}
+html {
+    font-size: 62.5%;
+    height: 100%;
+}
+body {
+    font-size: 1.4rem; 
+    height: 100%;
+    overflow-x: hidden;
+}
+html, body, div, p, span, img, h1, h2, h3, h4, h5, h6 {
+    @include init;
+}
+ul, li {
+    @include init;
+    list-style: none;
+}
+a {
+    @include init;
+    text-decoration: none;
+}
+input {
+    @include init;
+    border: none;
+    background-color: none;
+    outline: none;
+}

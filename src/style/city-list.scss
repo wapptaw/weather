@@ -1,0 +1,32 @@
+.city-list {
+    height: 100%;
+    .top {
+        @include top;
+        margin-bottom: 1rem;
+    }
+    .list {
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        li {
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            padding: 0 1rem;
+            @include prefix(box-sizing, border-box);
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+            margin-top: 1px;
+            background-color: #eaa;
+            @include prefix(border-radius, .2rem);
+        }
+    }
+    .add {
+        position: fixed;
+        left: 50%;
+        bottom: 5%;
+        @include prefix(transform, translate(-50%));
+    }
+    
+}

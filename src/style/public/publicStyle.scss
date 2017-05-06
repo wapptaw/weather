@@ -1,0 +1,27 @@
+@mixin prefix($attr, $value) {
+    -webkit-#{$attr}: $value;
+    -ms-#{$attr}: $value;
+    -o-#{$attr}: $value;
+    -moz-#{$attr}: $value;
+    #{$attr}: $value;
+}
+@mixin center {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+}
+$topHeight: 8%;
+@mixin top {
+    padding: 0 1rem;
+    height: $topHeight;
+    @include prefix(box-shadow, 0 0 .5rem #000);
+    display: -webkit-flex;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    h2 {
+        font-weight: normal;
+        margin-left: 1rem;
+        font-size: 1.8rem;
+    }
+}

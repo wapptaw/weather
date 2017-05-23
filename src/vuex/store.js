@@ -11,6 +11,7 @@ export default new Vuex.Store({
         weatherData: {},
         citys: [
             {city: '北京', prov: '北京', id: 'CN101010100'},
+            {city: '西安', prov: '陕西', id: 'CN101110101'}
         ],
         height: screenH,
         width: screenW,

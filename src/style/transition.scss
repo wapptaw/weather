@@ -7,3 +7,23 @@
 .fade-leave-active, .fade-enter-active {
     @include prefix(transition, opacity .1s linear);
 }
+
+.appear-left-start {
+    @include prefix(transform, translateX(100%));
+}
+.appear-move {
+    @include prefix(transition, transform .3s ease-in);
+    z-index: 2;
+}
+.disappear-left {
+    @include prefix(transform, translateX(-100%));
+    @include prefix(transition, transform .3s ease-in);
+}
+.appear-right-start {
+    @include prefix(transform, translateX(-100%));
+}
+.disappear-right {
+    @include prefix(transform, translateX(100%));
+    @include prefix(transition, transform .3s ease-in);
+}
+

@@ -11,20 +11,12 @@
             </ul>
         </transition>
         <v-touch class="city-items" 
-          :style="{ height: height + 'px' }"
-          @swipeleft="scrollLeft"
-          @swiperight="scrollRight"
-          @panstart="dragStart"
-          @panleft="dragLeft"
-          @panright="dragRight"
-          @panend="dragEnd"
+          @swipeleft="swipeLeft"
+          @swiperight="swipeRight"
           @tap="optionHiden"
-          :enabled="{swipe: true}"
-          :swipe-options="{direction: 'horizontal'}"
-          :pan-options="{direction: 'left', threshold: 20}">
-            <div :class="{citys: true, swipe: swipe}" :style="{transform: `translate(${shifting}px)`}">
-                <home v-for="(city, index) of citys" :cityname="city" :key="city.id" :style="homeStyle(index)"></home>
-            </div>
+          :swipe-options="{direction: 'horizontal'}">
+            <home :cityname="city" :class="{'disappear-left': dl, 'disappear-right': dr}" @transitionend.native="transEndA"></home>
+            <home :cityname="city_trans" :class="{'appear-left-start': als, 'appear-right-start': ars, 'appear-move': am}" v-if="trans" @transitionend.native="transEndB"></home>
         </v-touch>
     </div>
 </template>
@@ -43,15 +35,32 @@
                 show: false,
                 count: 0,
                 slide: false,
-                shiftingStart: 0,
-                shifting: 0,
-                swipe: true
+                para: 1,
+                trans: false,
+                dl: false,
+                als: false,
+                am: false,
+                ars: false,
+                dr: false,
+                onoff: true,
+                primaryStyle: '',
+                transitionStyle: '',
             }
         },
         created() {
             window.addEventListener('scroll', this.scroll)
         },
         computed: {
+            city() {
+                if(this.citys) {
+                    return this.citys[this.count];
+                }
+            },
+            city_trans() {
+                if(this.citys && this.citys.length > 1) {
+                    return this.citys[this.count + this.para]
+                }
+            },
             ...mapState({
                 citys: 'citys',
                 height: 'height',
@@ -65,56 +74,6 @@
             optionHiden() {
                 this.show = false;
             },
-            homeStyle(index) {
-                const translateX = `${this.width * index}px`;
-                return {
-                    transform: `translateX(${translateX})`
-                }
-            },
-            translate(count) {
-                const value = count * this.width;
-                this.shifting = -value;
-            },
-            scrollLeft() {
-                if(this.count < this.citys.length-1) {
-                    this.count ++;
-                    this.translate(this.count);
-                }
-                this.show = false;
-            },
-            scrollRight() {
-                if(this.count > 0) {
-                    this.count --;
-                    this.translate(this.count);
-                }
-                this.show = false;
-            },
-            dragStart() {
-                this.shiftingStart = this.shifting;
-                this.swipe = false;
-                this.show = false;
-            },
-            dragLeft(e) {
-                if(this.count < this.citys.length-1) {
-                    const deltaX = e.deltaX < -this.width ? -this.width : e.deltaX;
-                    this.shifting = this.shiftingStart + deltaX;
-                    console.log(e.deltaX)
-                }
-                
-                // console.log(this.shiftingStart) 
-                // console.log(this.shifting)
-                console.log('left')
-            },
-            dragRight(e) {
-                if(this.count > 0) {
-                    const deltaX = e.deltaX > this.width ? this.width : e.deltaX;
-                    this.shifting = this.shiftingStart + deltaX;
-                } 
-            },
-            dragEnd() {
-                this.translate(this.count);
-                this.swipe = true;
-            },
             scroll() {
                 this.show = false;
                 const scrollH = window.pageYOffset;
@@ -123,6 +82,42 @@
                 } else {
                     this.slide = false;
                 }
+            },
+            swipeLeft() {
+                if(this.onoff && this.count < this.citys.length-1) {
+                    this.onoff = false;
+                    this.trans = true;
+                    this.als = true;
+                    this.para = 1;
+                    setTimeout(() => {
+                        this.als = false;
+                        this.am = true;
+                        this.dl = true;
+                    }, 50);
+                }
+            },
+            swipeRight() {
+                if(this.onoff && this.count > 0) {
+                    this.onoff = false;
+                    this.trans = true;
+                    this.ars = true;
+                    this.para = -1;
+                    setTimeout(() => {
+                        this.ars = false;
+                        this.am = true;
+                        this.dr = true;
+                    },50)
+                }
+            },
+            transEndA() {
+                this.count += this.para;
+                this.dl = false;
+                this.dr = false;
+            },
+            transEndB() {
+                this.am = false;
+                this.trans = false;
+                this.onoff = true;
             }
         },
         components: {

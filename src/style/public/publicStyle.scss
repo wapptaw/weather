@@ -25,3 +25,9 @@ $topHeight: 8%;
         font-size: 1.8rem;
     }
 }
+.loading {
+    width: 100%;
+    position: fixed;
+    height: 40%;
+    z-index: 99;
+}

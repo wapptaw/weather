@@ -1,7 +1,7 @@
 <template>
     <div class="hourly">
         <ul class="hourly_item">
-            <li v-for="(hourly, index) of hourly_forecast" @mouseover="hover(index)" :style="{ height: height * .25 + 'px' }">
+            <li v-for="(hourly, index) of hourly_forecast" @touchstart="hover(index)" :style="{ height: height * .25 + 'px' }">
                 <template v-if="index === record">
                     <div class="hour">
                         <span>{{ hourly.date | hour }}</span>
@@ -25,21 +25,19 @@
 </template>
 
 <script>
-    import { allWeather } from '../api.js';
     import store from '../vuex/store.js';
     import { mapState } from 'vuex';
 
     export default {
         data() {
             return {
-                data: '',
                 record: ''
             }
         },
-        props: ['cityname'],
+        props: ['weatherAll'],
         computed: {
             hourly_forecast() {
-                return this.data.hourly_forecast;
+                return this.weatherAll.hourly_forecast;
             },
             ...mapState({
                 weatherData: 'weatherData',
@@ -49,18 +47,6 @@
         methods: {
             hover(index) {
                 this.record = index;
-            }
-        },
-        created() {
-            if(!this.weatherData[this.cityname.id]){
-                allWeather(this.cityname.id).then(response => {
-                    this.data = response.HeWeather5[0];
-                    this.$store.commit('saveWeather', response.HeWeather5[0]);
-                }).catch(error => {
-                    console.log(error);
-                })
-            }else {
-                this.data = this.weatherData[this.cityname.id];
             }
         },
         filters: {

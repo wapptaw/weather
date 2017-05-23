@@ -1,6 +1,6 @@
 <template>
     <div class="life">
-        <div v-for="(life, key) of lifeindex" class="life_item">
+        <div v-for="(life, key) of weatherAll.suggestion" class="life_item">
             <h3>{{ key | lifename}}</h3>
             <p>{{ life.brf }}</p>
         </div>
@@ -8,36 +8,15 @@
 </template>
 
 <script>
-    import { allWeather } from '../api.js';
     import store from '../vuex/store.js';
     import { mapState } from 'vuex';
 
     export default {
-        data() {
-            return {
-                data: ''
-            }
-        },
-        props: ['cityname'],
+        props: ['weatherAll'],
         computed: {
-            lifeindex() {
-                return this.data.suggestion;
-            },
             ...mapState({
                 weatherData: 'weatherData'
             })
-        },
-        created() {
-            if(!this.weatherData[this.cityname.id]){
-                allWeather(this.cityname.id).then(response => {
-                    this.data = response.HeWeather5[0];
-                    this.$store.commit('saveWeather', response.HeWeather5[0]);
-                }).catch(error => {
-                    console.log(error);
-                })
-            }else {
-                this.data = this.weatherData[this.cityname.id];
-            }
         },
         filters: {
             lifename(key) {

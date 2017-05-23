@@ -1,53 +1,47 @@
 <template>
     <div class="now" :style="{ height: height * .75 + 'px' }">
-        <div class="txt">{{ nowDataCond.txt }}</div>
-        <div class="tmp">{{ nowData.tmp }}</div>
-        <div class="qlty">{{ aqiData.qlty }}</div>
+        <div class="txt">{{ wnc.txt }}</div>
+        <div class="tmp">{{ wn.tmp }}</div>
+        <div class="qlty">{{ wac.qlty }}</div>
         <ul class="more">
-            <li><span>风力</span>{{ nowDataWind.dir }} {{ nowDataWind.sc }}级</li>
-            <li><span>相对湿度</span>{{ nowData.hum }}</li>
-            <li><span>pm2.5</span>{{ aqiData.pm25 }}</li>
-            <li><span>体感温度</span>{{ nowData.fl }}℃</li>
-            <li><span>气压</span>{{ nowData.pres }}</li>
-            <li><span>能见度</span>{{ nowData.vis }}</li>
+            <li><span>风力</span>{{ wnw.dir }} {{ wnw.sc }}级</li>
+            <li><span>相对湿度</span>{{ wn.hum }}</li>
+            <li><span>pm2.5</span>{{ wac.pm25 }}</li>
+            <li><span>体感温度</span>{{ wn.fl }}℃</li>
+            <li><span>气压</span>{{ wn.pres }}</li>
+            <li><span>能见度</span>{{wn.vis }}</li>
         </ul>
     </div>
 </template>
 
 <script>
-    import { allWeather } from '../api.js';
     import store from '../vuex/store.js';
     import { mapState } from 'vuex';
 
     export default {
-        data() {
-            return {
-                data: ''
-            }
-        },
-        props: ['cityname'],
+        props: ['weatherAll'],
         computed: {
-            nowData() {
-                if(this.data) {
-                    return this.data.now;
+            wn() {
+                if(this.weatherAll) {
+                    return this.weatherAll.now;
                 }
                 return {};
             },
-            aqiData() {
-                if(this.data.aqi) {
-                    return this.data.aqi.city;
+            wnc() {
+                if(this.weatherAll) {
+                    return this.weatherAll.now.cond;
                 }
                 return {};
             },
-            nowDataCond() {
-                if(this.data) {
-                    return this.data.now.cond;
+            wac() {
+                if(this.weatherAll.aqi) {
+                    return this.weatherAll.aqi.city;
                 }
                 return {};
             },
-            nowDataWind() {
-                if(this.data) {
-                    return this.data.now.wind;
+            wnw() {
+                if(this.weatherAll) {
+                    return this.wn.wind;
                 }
                 return {};
             },
@@ -55,18 +49,6 @@
                 weatherData: 'weatherData',
                 height: 'height'
             })
-        },
-        created() {
-            if(!this.weatherData[this.cityname.id]){
-                allWeather(this.cityname.id).then(response => {
-                    this.data = response.HeWeather5[0];
-                    this.$store.commit('saveWeather', response.HeWeather5[0]);
-                }).catch(error => {
-                    console.log(error);
-                })
-            }else {
-                this.data = this.weatherData[this.cityname.id];
-            }
         },
         store
     }

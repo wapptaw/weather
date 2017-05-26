@@ -1,6 +1,6 @@
 <template>
     <div class="life">
-        <div v-for="(life, key) of weatherAll.suggestion" class="life_item">
+        <div v-for="(life, key) of weatherAllData.suggestion" class="life_item">
             <h3>{{ key | lifename}}</h3>
             <p>{{ life.brf }}</p>
         </div>
@@ -13,6 +13,11 @@
 
     export default {
         props: ['weatherAll'],
+        data() {
+            return {
+                weatherAllData: this.weatherAll
+            }
+        },
         computed: {
             ...mapState({
                 weatherData: 'weatherData'

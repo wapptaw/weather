@@ -23,7 +23,8 @@
         data() {
             return {
                 data: '',
-                loading: true
+                loading: true,
+                cityData: this.cityname
             }
         },
         props: ['cityname'],
@@ -37,8 +38,8 @@
         },
         computed: {
             cityid() {
-                if(this.cityname) {
-                    return this.cityname.id
+                if(this.cityData) {
+                    return this.cityData.id
                 }
             },
             ...mapState({
@@ -48,7 +49,7 @@
         methods: {
             getWeatherData() {
                 this.loading = true;
-                if(this.cityname) {
+                if(this.cityData) {
                     if(!this.weatherData[this.cityid]){
                         allWeather(this.cityid).then(response => {
                             this.loading = false;

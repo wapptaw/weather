@@ -31,13 +31,14 @@
     export default {
         data() {
             return {
-                record: ''
+                record: '',
+                weatherAllData: this.weatherAll
             }
         },
         props: ['weatherAll'],
         computed: {
             hourly_forecast() {
-                return this.weatherAll.hourly_forecast;
+                return this.weatherAllData.hourly_forecast;
             },
             ...mapState({
                 weatherData: 'weatherData',

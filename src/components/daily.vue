@@ -1,7 +1,7 @@
 <template>
     <div class="daily">
         <ul>
-            <li v-for="(daily, index) of weatherAll.daily_forecast">
+            <li v-for="(daily, index) of weatherAllData.daily_forecast">
                 <span class="date">{{ date[index] }} {{ daily.date | simple_date }}</span>
                 <span class="txt_d">{{ daily.cond.txt_d }}</span>
                 <span class="tmp">{{ daily.tmp.min }}℃ ~ {{ daily.tmp.max }}℃</span>
@@ -17,7 +17,8 @@
     export default {
         data() {
             return {
-                date: ['今天', '明天', '后天']
+                date: ['今天', '明天', '后天'],
+                weatherAllData: this.weatherAll
             }
         },
         props: ['weatherAll'],

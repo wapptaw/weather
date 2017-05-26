@@ -19,28 +19,33 @@
     import { mapState } from 'vuex';
 
     export default {
+        data() {
+            return {
+                weatherAllData: this.weatherAll
+            }
+        },
         props: ['weatherAll'],
         computed: {
             wn() {
-                if(this.weatherAll) {
-                    return this.weatherAll.now;
+                if(this.weatherAllData) {
+                    return this.weatherAllData.now;
                 }
                 return {};
             },
             wnc() {
-                if(this.weatherAll) {
-                    return this.weatherAll.now.cond;
+                if(this.weatherAllData) {
+                    return this.weatherAllData.now.cond;
                 }
                 return {};
             },
             wac() {
-                if(this.weatherAll.aqi) {
-                    return this.weatherAll.aqi.city;
+                if(this.weatherAllData.aqi) {
+                    return this.weatherAllData.aqi.city;
                 }
                 return {};
             },
             wnw() {
-                if(this.weatherAll) {
+                if(this.weatherAllData) {
                     return this.wn.wind;
                 }
                 return {};
